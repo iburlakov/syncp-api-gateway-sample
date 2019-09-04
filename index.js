@@ -4,7 +4,7 @@ const config = require('./config');
 var fs = require('fs')
 var https = require('https')
 
-if (config.environment == 'local') {
+if (config.useHttps) {
     https.createServer({
         key: fs.readFileSync('./keys/server.key'),
         cert: fs.readFileSync('./keys/server.cert')},

@@ -4,5 +4,5 @@ module.exports = {
     port: process.env.PORT,
     appId: process.env.APP_ID,
     appSecret: process.env.APP_SECRET,
-    environment: process.env.ENVIRONMENT
+    useHttps: process.env.USE_HTTPS
 };
