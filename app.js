@@ -11,11 +11,25 @@ app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'))
+//app.set('publicj')
+app.use(express.static('front'));
 
 app.use(express.json());
 
+// app.get('/', (req, res)=> {
+//     console.log('landing');
+//     res.send("ok");
+// });
+
 app.get('/login', (req, res)=> {
     res.render('pages/login', 
+    {
+        appId: config.appId
+    });
+});
+
+app.get('/app', (req, res)=> {
+    res.render('pages/app', 
     {
         appId: config.appId
     });
@@ -44,7 +58,7 @@ app.get('/refresh/:email', (req, res) => {
         .catch(err => handleError(res, err));
 });
 
-app.get('/app', (req, res) => {
+app.get('/app_old', (req, res) => {
     res.send(req.query);
 });
 

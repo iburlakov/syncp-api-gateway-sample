@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "ssl": "mkdir -p keys; openssl req -nodes -new -x509 -keyout keys/server.key -out keys/server.cert",
     "local": "nodemon index.js"
