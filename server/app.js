@@ -32,10 +32,10 @@ app.get('/', function(req, res) {
 
 
 
-// app.get('/', (req, res)=> {
-//     console.log('landing');
-//     res.send("ok");
-// });
+app.get('/noop', (req, res)=> {
+    console.log(process.env.NODE_ENV);
+    res.status("200").send('OK');
+});
 
 // app.get('/login', (req, res)=> {
 //     res.render('pages/login', 

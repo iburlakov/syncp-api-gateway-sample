@@ -4,9 +4,9 @@ const config = require ('./config');
 var fs = require ('fs');
 var https = require ('https');
 
-const port = Number.parseInt(config.port) + 1;
 
-if (config.useHttps && false) {
+const port = config.port + (process.env.NODE_ENV != "production" ?  1 : 0);
+if (config.useHttps) {
   https
     .createServer (
       {
@@ -19,7 +19,7 @@ if (config.useHttps && false) {
       console.log (`started at ${port} on https`);
     });
 } else {
-  app.listen (port + 1, () => {
+  app.listen (port, () => {
     console.log (`started at ${port} on http`);
   });
 }
