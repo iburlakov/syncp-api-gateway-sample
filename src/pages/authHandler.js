@@ -22,7 +22,7 @@ function  AuthHandler(props)  {
     useEffect(() => {
         console.log('effect')
       
-        axios.post("/auth", {code: code})
+        axios.post("/api/auth", {code: code})
         .then(result => {
             if (result.status === 200) {
                console.log(`got token from proxy ${result.data}`)

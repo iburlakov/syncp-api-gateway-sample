@@ -15,9 +15,7 @@ const qs = require('qs');
 
 app = express();
 
-//app.set('view engine', 'ejs');
-//app.set('views', path.join(__dirname, '/views'))
-//app.set('publicj')
+
 app.use(express.static('front'));
 
 app.use(cors());
@@ -30,46 +28,18 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
-
-
 app.get('/noop', (req, res)=> {
     console.log(process.env.NODE_ENV);
     res.status("200").send('OK');
 });
 
-// app.get('/login', (req, res)=> {
-//     res.render('pages/login', 
-//     {
-//         appId: config.appId
-//     });
-// });
-
-// app.get('/app', (req, res)=> {
-//     res.render('pages/app', 
-//     {
-//         appId: config.appId
-//     });
-// })
 const axios = require('axios');
 const client = axios.create({
     baseURL: 'https://api.syncplicity.com/'
 });
 
-app.get('/auth', (req, res) => {
-    const code = req.query.code;
 
-    res.send('auth');
-
-    // client.oauth.auth(code, config.appId, config.appSecret)
-    //     .then(token => {
-    //         storage[token.user_email] = token;
-
-    //         res.redirect(`/app/${token.user_email}`);
-    //     })
-    //     .catch(err => handleError(res, err));
-});
-
-app.post('/auth', (req, res) => {
+app.post('/api/auth', (req, res) => {
     const code =  req.body.code;
     console.log(req.body);
     console.log(req.body.code);
@@ -87,22 +57,12 @@ app.post('/auth', (req, res) => {
             console.log(err.message);
             res.status(500).send(err.message);
         });
-            
-            //handleError(res, err));
-
-    //config.appId, config.appSecret
-
-
-    //res.send('auth');
-
-    // client.oauth.auth(code, config.appId, config.appSecret)
-    //     .then(token => {
-    //         storage[token.user_email] = token;
-
-    //         res.redirect(`/app/${token.user_email}`);
-    //     })
-    //     .catch(err => handleError(res, err));
 });
+
+app.get('api/refresh/:email', (req, res) => {
+    // TODO: store refresh token in strorage
+    res.status(501);
+ });
 
 function handleErrorI(err) {
     console.log(`ERROR ${err.response.config.method} ${err.response.config.url} -> ${err.response.status}:${err.response.statusText} -> ${JSON.stringify(err.response.data)}`);
@@ -126,11 +86,6 @@ function auth(code, clientId, clientSecret) {
             }
         })
         .then(response => response.data)
-        // .catch(err => {
-        //     //console.log(err.response);
-        //     //console.log(`Error ${err.response.status}:${err.response.statusText}:${err.response.data}`);
-        //     //throw(err);
-        // })
         .catch(handleErrorI);
 }
 
