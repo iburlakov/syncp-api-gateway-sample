@@ -64,6 +64,11 @@ app.get('api/refresh/:email', (req, res) => {
     res.status(501);
  });
 
+ // Handles any requests that don't match the ones above
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
 function handleErrorI(err) {
     console.log(`ERROR ${err.response.config.method} ${err.response.config.url} -> ${err.response.status}:${err.response.statusText} -> ${JSON.stringify(err.response.data)}`);
     
