@@ -1,19 +1,25 @@
-const app = require('./app');
-const config = require('./config');
+const app = require ('./app');
+const config = require ('./config');
 
-var fs = require('fs')
-var https = require('https')
+var fs = require ('fs');
+var https = require ('https');
 
-if (config.useHttps&& false) {
-    https.createServer({
-        key: fs.readFileSync('./keys/server.key'),
-        cert: fs.readFileSync('./keys/server.cert')},
-        app)
-        .listen(config.port, () => {
-            console.log(`started at ${config.port} on https`);
-        });
-} else {
-    app.listen(config.port, () =>{
-        console.log(`started at ${config.port} on http`);
+const port = Number.parseInt(config.port) + 1;
+
+if (config.useHttps && false) {
+  https
+    .createServer (
+      {
+        key: fs.readFileSync ('./keys/server.key'),
+        cert: fs.readFileSync ('./keys/server.cert'),
+      },
+      app
+    )
+    .listen (port, () => {
+      console.log (`started at ${port} on https`);
     });
+} else {
+  app.listen (port + 1, () => {
+    console.log (`started at ${port} on http`);
+  });
 }
