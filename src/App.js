@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
 import PrivateRoute from './components/privateRoute';
 
 
-import logo from './logo.svg';
-import './App.css';
+//import logo from './logo.svg';
+//import './App.css';
 
 import {useAuth, AuthContext} from './components/authContext';
 
@@ -43,13 +43,24 @@ function App() {
             <Link to="/browser">Browser</Link>
           </li>
         </ul>
-        <Route exact path="/" component={Login} />
+        <Switch>
         <PrivateRoute path="/browser" component={Browser} />
-        <Route path="/auth/handler" component={AuthHandler} />
+        <Route exact path="/" component={Login} />
+       
+       {/* //<PrivateRoute path="/browser/:sid/:fid" component={Browser} />
+       
+       //<PrivateRoute path="/browser/:sid" component={Browser} /> */}
+      
+
+
+       <Route path="/auth/handler" component={AuthHandler} />
+        </Switch>
+     
       </div>
     </Router>
     </AuthContext.Provider>
   );
 }
+
 
 export default App;

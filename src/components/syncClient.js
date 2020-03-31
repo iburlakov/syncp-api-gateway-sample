@@ -2,16 +2,18 @@ import axios from 'axios';
 
 // TODO convert to class  or single object
 
+class SyncpClient {
+    constructor() {
+        this.client = axios.create({
+            baseURL: 'https://api.syncplicity.com/'
+        });
+    }
 
-const client = axios.create({
-    baseURL: 'https://api.syncplicity.com/'
-});
-
-function handleError(err) {
-    console.log(`ERROR ${err.response.config.method} ${err.response.config.url} -> ${err.response.status}:${err.response.statusText} -> ${JSON.stringify(err.response.data)}`);
-    
-    throw err;
-}
+     handleError(err) {
+        console.log(`ERROR ${err.response.config.method} ${err.response.config.url} -> ${err.response.status}:${err.response.statusText} -> ${JSON.stringify(err.response.data)}`);
+        
+        throw err;
+    }
 
 // function auth(code, clientId, clientSecret) {
 //     const authToken =  Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
@@ -50,8 +52,8 @@ function handleError(err) {
 //         .catch(handleError);
 // }
 
-function getSyncpoints(accessToken) {
-    return client.get('syncpoint/syncpoints.svc',
+ getSyncpoints(accessToken) {
+    return this.client.get('syncpoint/syncpoints.svc',
         {
             headers: {
                 'Accept': "application/json",
@@ -59,12 +61,12 @@ function getSyncpoints(accessToken) {
             }
         })
         .then(response => response.data)
-        .catch(handleError);          
+        .catch(this.handleError);          
 }
 
-function getFolders(accessToken, syncpointId, paretnFolderId) {
+ getFolders(accessToken, syncpointId, paretnFolderId) {
 
-    return client.get(`sync/folder_folders.svc/${syncpointId}/folder/${paretnFolderId}/folders`,
+    return this.client.get(`sync/folder_folders.svc/${syncpointId}/folder/${paretnFolderId}/folders`,
         {
             headers: {
                 'Accept': "application/json",
@@ -72,10 +74,11 @@ function getFolders(accessToken, syncpointId, paretnFolderId) {
             }
         })
         .then(response => response.data)
-        .catch(handleError);          
+        .catch(this.handleError);          
 }
-function getFiles(accessToken, syncpointId, paretnFolderId) {
-    return client.get(`sync/folder_files.svc/${syncpointId}/folder/${paretnFolderId}/files`,
+
+ getFiles(accessToken, syncpointId, paretnFolderId) {
+    return this.client.get(`sync/folder_files.svc/${syncpointId}/folder/${paretnFolderId}/files`,
     {
         headers: {
             'Accept': "application/json",
@@ -83,15 +86,27 @@ function getFiles(accessToken, syncpointId, paretnFolderId) {
         }
     })
     .then(response => response.data)
-    .catch(handleError);   
+    .catch(this.handleError);   
 }
 
-function createLink(accessToken, syncpointId, virtualPath) {
+ getContent(accessToken, syncpointId, paretnFolderId) {
+    return this.client.get(`/sync/folder.svc/${syncpointId}/folder/${paretnFolderId}?include=active`,
+    {
+        headers: {
+            'Accept': "application/json",
+            "Authorization": `Bearer ${accessToken}`
+        }
+    })
+    .then(response => response.data)
+    .catch(this.handleError);  
+}
+
+ createLink(accessToken, syncpointId, virtualPath) {
     console.log({ 
         SyncPointId: syncpointId,
         VirtualPath: virtualPath
     });
-    return client.post(`syncpoint/links.svc`,
+    return this.client.post(`syncpoint/links.svc`,
         [{ 
             SyncPointId: syncpointId,
             VirtualPath: virtualPath
@@ -109,18 +124,20 @@ function createLink(accessToken, syncpointId, virtualPath) {
             return response;
         })
         .then(response => response.data)
-        .catch(handleError);   
+        .catch(this.handleError);   
 } 
+}
 
-export default {
-    // oauth : {
-    //     auth: auth,
-    //     refresh: refresh
-    // },
-    syncp : {
-        getSyncpoints,
-        getFolders,
-        getFiles,
-        createLink
-    }
-};
+export default new SyncpClient();
+// export default {
+//     // oauth : {
+//     //     auth: auth,
+//     //     refresh: refresh
+//     // },
+//     syncp : {
+//         getSyncpoints,
+//         getFolders,
+//         getFiles,
+//         createLink
+//     }
+// };
