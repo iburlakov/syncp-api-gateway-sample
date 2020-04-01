@@ -1,68 +1,49 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a sample of using [Syncplicity API](https://developer.syncplicity.com/apis/) in SPA application. 
 
-## Available Scripts
+## Info
 
-In the project directory, you can run:
+App is written in [React](https://reactjs.org/) with using [hooks](https://reactjs.org/docs/hooks-intro.html). The app is bootstrapped using [Create React App](https://github.com/facebook/create-react-app) toolchain.
 
-### `yarn start`
+For dealing with [OAuth 2.0 Authorization Code Grand](https://oauth.net/2/grant-types/authorization-code/) flow node server is used to exchange secret code and access token, without passing refresh token to the client.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Running locally
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### npm run server 
+Starts node server 
+### npm run client
+Starts react application in separate dev server
 
-### `yarn test`
+## Hosting on Heroku
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+I've choosed [Heroku](https://heroku.com/) to run the application, cause it's relatively chip and provides very nice git-like way to publish code.
 
-### `yarn build`
+The usual flow of publishing the changes is simple pushing changes to heroku remote via git commant line tool.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Outdated
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Running app under HTTPS
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+It's possible to run node server under HTTPS, to do that:
 
-### `yarn eject`
+* generate keys and certs, do not forget to add *keys* folder to *.gitignore*.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+   ```shell
+   mkdir -p keys; openssl req -nodes -new -x509 -keyout keys/server.key -out keys/server.cert
+   ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* start server with HTTPS support like this
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    ```javascript
+    var fs = require ('fs');
+    var https = require ('https');
+    var app = require('express')();
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    https.createServer (
+        {
+            key: fs.readFileSync ('./keys/server.key'),
+            cert: fs.readFileSync ('./keys/server.cert'),
+        }, app)
+        .listen (5000);
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+    ```
+But this doe not make sence, since if you node serer hosts react app in development, hot reload will not work. Use proxying requests from react to server running on different port instead.
