@@ -13,11 +13,18 @@ Starts node server
 ### npm run client
 Starts react application in separate dev server
 
+## Environment variables
+
+TODO
+
+
 ## Hosting on Heroku
 
 I've choosed [Heroku](https://heroku.com/) to run the application, cause it's relatively chip and provides very nice git-like way to publish code.
 
 The usual flow of publishing the changes is simple pushing changes to heroku remote via git commant line tool.
+
+
 
 ## Outdated
 

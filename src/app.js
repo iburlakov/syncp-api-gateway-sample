@@ -15,6 +15,8 @@ import Login from './pages/login';
 import Browser from './pages/browser';
 import AuthHandler from './pages/authHandler';
 
+import User from './controls/user';
+
 function App() {
 
   // /const tmp = localStorage.getItem("tokens");
@@ -33,31 +35,19 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
-    <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Login</Link>
-          </li>
-          <li>
-            <Link to="/browser">Browser</Link>
-          </li>
-        </ul>
-        <Switch>
-        <PrivateRoute path="/browser" component={Browser} />
-        <Route exact path="/" component={Login} />
-       
-       {/* //<PrivateRoute path="/browser/:sid/:fid" component={Browser} />
-       
-       //<PrivateRoute path="/browser/:sid" component={Browser} /> */}
-      
-
-
-       <Route path="/auth/handler" component={AuthHandler} />
-        </Switch>
-     
-      </div>
-    </Router>
+      <Router>
+        <div>
+          <Link to="/">Login</Link> | <Link to="/browser">Browser</Link>
+          <header>
+            <User />
+          </header>
+          <Switch>
+            <PrivateRoute path="/browser" component={Browser} />
+            <Route exact path="/" component={Login} />
+            <Route path="/auth/handler" component={AuthHandler} />
+          </Switch>
+        </div>
+      </Router>
     </AuthContext.Provider>
   );
 }

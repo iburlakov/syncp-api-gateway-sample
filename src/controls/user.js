@@ -2,26 +2,25 @@ import React, {useState, useEffect} from 'react';
 
 import {useAuth} from '../components/authContext';
 
+import LoginButton from './loginButton';
+import LogoutButton from './logoutButton';
+
 
 export default function User() {
-    const {authTokens, setAuthTokens} = useAuth()
-    
-    
-    function logOut() {
-        setAuthTokens(null);
-    };
+    const {authTokens} = useAuth()
 
-    if (authTokens) {
-        return (
-            <div>  
-                <p>{authTokens.user_email} from {authTokens.user_company_name}</p> <button onClick={logOut}>logout</button>
-            </div>
-        );
-    } else {
-        return (
-            <div>
-            not authenticated 
-            </div>
-        );
-    }
+    return (
+        <div>
+            {
+                authTokens
+                    ? <div>
+                        <p>
+                            <span>{authTokens.user_email} </span>
+                            <LogoutButton />
+                        </p>
+                    </div>
+                    : <LoginButton />
+            }
+        </div>
+    )
 }
