@@ -8,12 +8,12 @@ const qs = require('qs');
 const config = require('./config');
 
 const authApiClient = axios.create({
-    baseURL: 'https://api.syncplicity.com/'
+    baseURL: config.apiHost
 });
 
 app = express();
 
-// TODO: remove this in production environment
+// TODO: do not allow cors requests in production
 app.use(cors());
 
 app.use(express.json());
@@ -41,8 +41,12 @@ app.post('/api/auth', (req, res) => {
         })
         .then(response => response.data)
         .then(token => {
-            // TODO: make sure that client doesn't get refresh token
-            res.send(token).status(200);
+            res.send({
+                    access_token: token.access_token,
+                    user_email: token.user_email,
+                    issued_at: token.issued_at,
+                    expires_in: token.expires_in}
+                ).status(200);
         })
         .catch(err => {
             res.status(500).send(err.message);
