@@ -3,11 +3,10 @@ import {Link} from 'react-router-dom';
 
 import backImage  from '../../images/arrow-up.svg';
 
-export default function BackItem(folder) {
+export default function BackItem({folder}) {
     const backUrl = folder.ParentFolderId
         ? `/browser/${folder.SyncpointId}/${folder.ParentFolderId}`
         : `/browser`;
-
     return (
         <div className='row hoverable'>
             <div className='col-md'>
