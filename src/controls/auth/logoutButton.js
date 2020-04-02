@@ -11,5 +11,7 @@ export default function LogoutButton () {
     return false;
   }
 
-  return ( <a className='btn btn-outline-primary' onClick={logoutClicked} href='#'>logout</a>);
+  return ( 
+    <a className='btn btn-outline-primary' onClick={logoutClicked} href='#'>logout</a>
+  );
 }

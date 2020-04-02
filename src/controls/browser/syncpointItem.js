@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import {toBytesString} from '../../components/helpers';
+
 import folderImage  from '../../images/folder.svg';
 
 export default function SyncpointItem({syncpoint}) {
@@ -12,11 +14,11 @@ export default function SyncpointItem({syncpoint}) {
                     <span className='px-3'>{syncpoint.Name}</span>
                 </Link>
             </div>
-            <div className='col-md-2'>
+            <div className='col-md-3'>
                 -
             </div>
             <div className='col-md-2'>
-                {syncpoint.SyncpointSize}
+                {toBytesString(syncpoint.SyncpointSize)}
             </div>
         </div>
     );

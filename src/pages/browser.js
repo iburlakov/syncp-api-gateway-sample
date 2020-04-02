@@ -12,6 +12,7 @@ function Browser(props) {
     const {token, setToken} = useAuth();
    
     const [cache, setCache] = useState({});
+    const [path, setPath] = useState();
   
     const { sid, fid } = useParams();
 
@@ -48,21 +49,18 @@ function Browser(props) {
     }
 
     useEffect(() => {
-        if (sid && fid) {
-            if (cache.folders && cache.folders[fid]) {
-                return;
-            }
-
-            loadFolder(sid, fid);
-
-        } else {
-            if (cache.syncpoints) {
-                return;
-            }
-
+        if (!cache.syncpoints) {
             loadSyncpoints();
+        }   else {
+            if (sid && fid) {
+                if (cache.folders && cache.folders[fid]) {
+                    return;
+                }
+    
+                loadFolder(sid, fid);
+            }
         }
-    },[sid, fid]);
+    },[sid, fid, cache]);
 
     // TODO: add error handling show an error message
     return (
@@ -71,7 +69,7 @@ function Browser(props) {
                 <div className='col-md'>
                     <h4 className='my-0 font-weight-normal'>Item</h4>
                 </div>
-                <div className='col-md-2'>
+                <div className='col-md-3'>
                     <h4 className='my-0 font-weight-normal'>Modified</h4>
                 </div>
                 <div className='col-md-2'>

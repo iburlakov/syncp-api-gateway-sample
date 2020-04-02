@@ -14,7 +14,7 @@ export default function FolderItem({folder}) {
                     <span className='px-3'>{folder.Name}</span>
                 </Link>
             </div>
-            <div className='col-md-2'>
+            <div className='col-md-3'>
                 -
             </div>
             <div className='col-md-2'>

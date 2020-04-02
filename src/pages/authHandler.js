@@ -44,9 +44,18 @@ function  AuthHandler(props)  {
         return (<Redirect to='/browser' />);
     } else if (error) {
         return (
-        <div className="alert alert-danger mx-12" role="alert">
-            {error}. <a href="#" onClick={onRetryClicked}>Retry.</a>
-        </div>  
+            <>
+            <div className='row text-center'>
+                <div className='col-md'>
+                    <p className="lead text-muted">Wait while you are logging in</p>
+                </div>
+            </div>
+            <div className='row'>
+                <div className="col-md alert alert-danger mx-12" role="alert">
+                    {error}. <a href="#" onClick={onRetryClicked}>Retry.</a>
+                </div> 
+            </div>
+            </>
         );
     } else {
         return ( <Loading text='Loading...'/> );

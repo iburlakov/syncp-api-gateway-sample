@@ -3,6 +3,10 @@ img.list-item-image {
     width: 42px;
 }
 
+img.back-image {
+    width: 32px;
+}
+
 .hoverable:hover {
     background: #f8f9fa;
 }
