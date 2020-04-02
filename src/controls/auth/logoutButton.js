@@ -6,7 +6,7 @@ export default function LogoutButton () {
   const {setToken} = useAuth ();
 
   function logoutClicked () {
-    setToken ();
+    setToken();
 
     return false;
   }

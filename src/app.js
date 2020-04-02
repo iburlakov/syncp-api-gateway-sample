@@ -30,20 +30,21 @@ function App() {
   return (
     <AuthContext.Provider value={{ token, setToken: setTokenCallback }}>
       <Router>
-        <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm">
-          <h5 className="my-0 mr-md-auto font-weight-normal">Syncplicity API Gateway Client</h5>
-          <User />
-        </div>
-
-        <div className="container">
-          <div className="pt-4">
-            <Switch>
-              <PrivateRoute path="/browser/:sid/:fid" component={Browser} />
-              <PrivateRoute path="/browser" component={Browser} />
-              <Route exact path="/" component={Login} />
-              <Route path="/auth/handler" component={AuthHandler} />
-            </Switch>
+        <>
+          <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm">
+            <h5 className="my-0 mr-md-auto font-weight-normal">Syncplicity API Gateway Client</h5>
+            <User />
           </div>
+
+          <div className="container">
+            <div className="pt-4">
+              <Switch>
+                <PrivateRoute path="/browser/:sid/:fid" component={Browser} />
+                <PrivateRoute path="/browser" component={Browser} />
+                <Route exact path="/" component={Login} />
+                <Route path="/auth/handler" component={AuthHandler} />
+              </Switch>
+            </div>
 
             <footer className="pt-4 my-md-5 border-top">
               <div className="row">
@@ -51,8 +52,9 @@ function App() {
                   <small className="d-block mb-3 text-muted">&copy; 2019-{new Date().getFullYear()}</small>
                 </div>
               </div>
-      </footer>
-      </div>
+            </footer>
+          </div>
+        </>
       </Router>
     </AuthContext.Provider>
   );

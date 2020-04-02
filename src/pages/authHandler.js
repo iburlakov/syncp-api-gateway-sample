@@ -57,9 +57,9 @@ function  AuthHandler(props)  {
             </div>
             </>
         );
-    } else {
-        return ( <Loading text='Authenticating...'/> );
     }
+    
+    return ( <Loading text='Authenticating...'/> );
 }
 
 export default AuthHandler;
