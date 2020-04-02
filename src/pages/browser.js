@@ -1,113 +1,86 @@
 import React, {useState, useEffect} from 'react';
 
-import {Link, Route, Switch, useParams, useRouteMatch} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 import {useAuth} from '../components/authContext';
-import {CacheContext} from '../components/cacheContext';
 
 import client from '../components/syncClient';
 
-import List from '../controls/list';
-import Items from '../controls/items';
-
-import User from '../controls/user';
-import Loading from '../controls/loading';
-import SyncpointItem from '../controls/syncpointItem';
+import List from '../controls/browser/list';
 
 function Browser(props) {
-    const {authTokens, setAuthTokens} = useAuth();
+    const {token, setToken} = useAuth();
    
-    //const [syncpoints, setSyncpoints] = useState();
+    const [cache, setCache] = useState({});
+  
+    const { sid, fid } = useParams();
 
-    //const [cache, setCache] = useState();
-    
-    //const [error, setError] = useState();
-
-    const accessToken = authTokens.access_token;
-
-    //let { sid, fid } = useParams();
-
-    
-    const [cache, setCache] = useState();
-    // const setCache = (data) => {
-    //     setCacheState(data);
-    // }
-
-
-    // useEffect(() => {
-    //     if (sid>0) {
-    //         client.getContent(authTokens.access_token, sid, fid)
-    //         .then(data => {
-    //             console.log("loaded content")
-    //             const newCache = cache[data.FolderId] = data;
-    //             setCache(newCache);
-    //             //setSyncpoints(data)
-    //         })
-    //         .catch(err => setError(err.message));
-
-    //         return;
-    //     }
-
-    //     client.getSyncpoints(authTokens.access_token)
-    //         .then(data => {
-    //             console.log("loaded syncpoints")
+    function loadSyncpoints() {
+        client.getSyncpoints(token.access_token)
+            .then(data => {
+                console.log("loaded syncpoints")
                 
-    //             setSyncpoints(data)
-    //         })
-    //         .catch(err => setError(err.message));
-    // }, []);
+                setCache({syncpoints: data, ...cache});
+            })
+            .catch(err => 
+            {
+                if (err.response && err.response.status == 401) {
+                    setToken();
+                }
+            });
+    }
 
-    let { path, url } = useRouteMatch();
-
-
-    return (
-        <CacheContext.Provider value={{ cache, setCache}}>
-        <div>
-            <Switch>
-                <Route exact path={path}>
-                    <h3>list of syncpoint</h3>
-                    <List />
-                </Route>
-                <Route path={`${path}/:sid/:fid`}>
-                    <h3>list of content</h3>
-                    <Items />
-                </Route>
-            </Switch>
-            
-            {/* //<List /> */}
-        </div>
-        </CacheContext.Provider>
-    );
-
-    
-    // if (!syncpoints) {
-    //     return (<Loading />);
-    // } else if (sid > 0) {
-    //     if (fid > 0) {
-    //         return (<div>not implemented</div>);
-
-    //     } else {
-
-    //     }
-
-    // } else {
-
-    //     return (
-    //         <div>
-    //         <User />
-    //         <p>{error && 
-    //             <span>{error}</span>}
-    //         </p>
-    //         <ul>
+    function loadFolder(syncpointId, folderId) {
+        client.getContent(token.access_token, sid, fid)
+            .then(data => {
+                console.log("loaded folder content")
                
-    //               {syncpoints.map((item, index) => <li>{index}:
-    //               <a onClick={onClick}>{syncpoints.Name</a>
-    //               {/* <Link onClick>item.Name</Link> */}
-    //             {/* <SyncpointItem syncpoint={item} /></li>)}  */}
-    //         </ul>
-    //     </div>
-    //         );
-    //}
+                let tmp = cache && cache.folders ? cache.folders : {};
+                tmp[fid] = data;
+                setCache({folders: tmp, ...cache});
+            })
+            .catch(err => 
+            {
+                if (err.response && err.response.status == 401) {
+                    setToken();
+                }
+            });
+    }
+
+    useEffect(() => {
+        if (sid && fid) {
+            if (cache.folders && cache.folders[fid]) {
+                return;
+            }
+
+            loadFolder(sid, fid);
+
+        } else {
+            if (cache.syncpoints) {
+                return;
+            }
+
+            loadSyncpoints();
+        }
+    },[sid, fid]);
+
+    // TODO: add error handling show an error message
+    return (
+        <>
+            <div className='row bg-dark text-white p-3 mb-2'>
+                <div className='col-md'>
+                    <h4 className='my-0 font-weight-normal'>Item</h4>
+                </div>
+                <div className='col-md-2'>
+                    <h4 className='my-0 font-weight-normal'>Modified</h4>
+                </div>
+                <div className='col-md-2'>
+                    <h4 className='my-0 font-weight-normal'>Size</h4>
+                </div>
+            </div>
+            <List cache={cache} folderId={fid} />
+        </>
+    );
 }
 
 export default Browser;

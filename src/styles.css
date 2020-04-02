@@ -1,0 +1,28 @@
+
+img.list-item-image {
+    width: 42px;
+}
+
+.hoverable:hover {
+    background: #f8f9fa;
+}
+
+.loading-spinner {
+    height: 24px;
+    pointer-events: none;
+}
+  
+@media (prefers-reduced-motion: no-preference) {
+    .loading-spinner {
+        animation: loading-spin infinite 5s linear;
+    }
+}
+
+@keyframes loading-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

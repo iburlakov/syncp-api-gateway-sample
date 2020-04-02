@@ -1,27 +1,26 @@
 import React, {useState} from 'react';
 import {Redirect} from 'react-router-dom';
 
-import axios from 'axios';
-
 import {useAuth} from '../components/authContext';
 
-import LoginButton from '../controls/loginButton';
+import LoginButton from '../controls/auth/loginButton';
 
 function Login(props) {
-
     const [isLoggedIn, setLoggedIn] = useState(false);
-    const [isError, setIsError] = useState(false);
-    const [userName, setUserName] = useState("");
-    const [password, setPassword] = useState("");
-    const { setAuthTokens } = useAuth();
 
-    if (isLoggedIn) {
-        return <Redirect to="/browser" />;
-        }
+    const {token} = useAuth();
 
+    if (token) {
+        return <Redirect to='/browser' />;
+    }
     return (
-        <div>
+
+        <div className="container text-center">
+          <h1>Wellcome</h1>
+          <p className="lead text-muted">You need to login with syncplicity accpunt to use this site</p>
+          <p>
             <LoginButton />
+          </p>
         </div>
     );
 }

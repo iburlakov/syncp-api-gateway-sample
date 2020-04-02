@@ -17,6 +17,10 @@ Starts react application in separate dev server
 
 TODO
 
+## Setup application of Syncplicity API portal
+
+TODO
+
 
 ## Hosting on Heroku
 
