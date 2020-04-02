@@ -12,8 +12,7 @@ function Browser(props) {
     const {token, setToken} = useAuth();
    
     const [cache, setCache] = useState({});
-    const [path, setPath] = useState();
-  
+
     const { sid, fid } = useParams();
 
     function loadSyncpoints() {

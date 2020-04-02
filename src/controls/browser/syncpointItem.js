@@ -10,7 +10,7 @@ export default function SyncpointItem({syncpoint}) {
         <div className='row hoverable'>
             <div className='col-md'>
                 <Link className='text-dark' to={`/browser/${syncpoint.Id}/${syncpoint.RootFolderId}`}>
-                    <img src={folderImage} className='list-item-image' />
+                    <img src={folderImage} alt='syncpoint' className='list-item-image' />
                     <span className='px-3'>{syncpoint.Name}</span>
                 </Link>
             </div>

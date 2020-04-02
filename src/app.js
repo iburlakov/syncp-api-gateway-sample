@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import PrivateRoute from './components/privateRoute';
 
@@ -21,10 +21,10 @@ function App() {
   const setTokenCallback = (data) => {
     if (data) {
       localStorage.setItem("token", JSON.stringify(data));
-      setToken(data);
     } else {
       localStorage.removeItem("token");
     }
+    setToken(data);
   }
 
   return (
@@ -37,12 +37,9 @@ function App() {
 
         <div className="container">
           <div className="pt-4">
-            {/* <Link to="/">Login</Link> | <Link to="/browser">Browser</Link> */}
-          
             <Switch>
               <PrivateRoute path="/browser/:sid/:fid" component={Browser} />
               <PrivateRoute path="/browser" component={Browser} />
-              
               <Route exact path="/" component={Login} />
               <Route path="/auth/handler" component={AuthHandler} />
             </Switch>
@@ -60,6 +57,5 @@ function App() {
     </AuthContext.Provider>
   );
 }
-
 
 export default App;

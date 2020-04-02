@@ -58,7 +58,7 @@ function  AuthHandler(props)  {
             </>
         );
     } else {
-        return ( <Loading text='Loading...'/> );
+        return ( <Loading text='Authenticating...'/> );
     }
 }
 

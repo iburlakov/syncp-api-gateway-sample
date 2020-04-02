@@ -6,8 +6,6 @@ import {useAuth} from '../components/authContext';
 import LoginButton from '../controls/auth/loginButton';
 
 function Login(props) {
-    const [isLoggedIn, setLoggedIn] = useState(false);
-
     const {token} = useAuth();
 
     if (token) {

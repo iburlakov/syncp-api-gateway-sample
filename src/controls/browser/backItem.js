@@ -12,7 +12,7 @@ export default function BackItem(folder) {
         <div className='row hoverable'>
             <div className='col-md'>
                 <Link className='text-dark' to={backUrl}>
-                    <img src={backImage} className='back-image' />
+                    <img src={backImage} alt='back' className='back-image' />
                     <span className='px-3'>...</span>
                 </Link>
             </div>

@@ -10,7 +10,7 @@ export default function FolderItem({folder}) {
         <div className='row hoverable'>
             <div className='col-md'>
                 <Link className='text-dark' to={folderUrl}>
-                    <img src={folderImage} className='list-item-image' />
+                    <img src={folderImage} alt='folder' className='list-item-image' />
                     <span className='px-3'>{folder.Name}</span>
                 </Link>
             </div>
