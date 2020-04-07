@@ -22,6 +22,16 @@ app.get('/api/noop', (req, res)=> {
     res.status("200").send('NoOp');
 });
 
+function handleAuthError(action, err, response) {
+    console.log(`Error when ${action}: ${error.message}`);
+
+    if (err.response) {
+        console.log(error.response);
+    }
+
+    response.status(500).send(err.message);
+}
+
 app.post('/api/auth', (req, res) => {
     const code = req.body.code;
 
@@ -48,9 +58,7 @@ app.post('/api/auth', (req, res) => {
                     expires_in: token.expires_in}
                 ).status(200);
         })
-        .catch(err => {
-            res.status(500).send(err.message);
-        });
+        .catch(err => handleAuthError('auth', err, res));
 });
 
 app.get('api/refresh/:email', (req, res) => {
