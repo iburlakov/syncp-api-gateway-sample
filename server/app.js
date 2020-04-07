@@ -22,14 +22,14 @@ app.get('/api/noop', (req, res)=> {
     res.status("200").send('NoOp');
 });
 
-function handleAuthError(action, err, response) {
+function handleAuthError(action, error, response) {
     console.log(`Error when ${action}: ${error.message}`);
 
-    if (err.response) {
+    if (error.response) {
         console.log(error.response);
     }
 
-    response.status(500).send(err.message);
+    response.status(500).send(error.message);
 }
 
 app.post('/api/auth', (req, res) => {
